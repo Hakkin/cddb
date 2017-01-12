@@ -46,14 +46,14 @@ func queryResponse(albums []gracenote.Album) (response string, err error) {
 		log.Println("query no match found")
 		return cddbStatus(202, "No match found", true), nil
 	}
-	
+
 	responseBuffer := &bytes.Buffer{}
-	
+
 	err = queryTemplate.Execute(responseBuffer, albums)
 	if err != nil {
 		return "", err
 	}
-	
+
 	return responseBuffer.String(), nil
 }
 
@@ -64,13 +64,13 @@ func readResponse(albums []gracenote.Album, readCmd ReadCmd) (response string, e
 	}
 
 	album := albums[0]
-	
+
 	responseBuffer := &bytes.Buffer{}
-	
+
 	err = readTemplate.Execute(responseBuffer, album)
 	if err != nil {
 		return "", err
 	}
-	
+
 	return responseBuffer.String(), nil
 }
