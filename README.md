@@ -47,7 +47,7 @@ Request to */cddb/jpn*
 	<ARTIST>Amos Lee</ARTIST>
 	<TITLE>Colours</TITLE>
 	<PKG_LANG>ENG</PKG_LANG>
-	<GENRE NUM="105245" ID="35493">ƒ|ƒbƒv (—mŠy)</GENRE>
+	<GENRE NUM="105245" ID="35493">ãƒãƒƒãƒ— (æ´‹æ¥½)</GENRE>
 </ALBUM>
 ```
 
