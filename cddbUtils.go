@@ -1,12 +1,37 @@
 package cddb
 
 import (
+	"bytes"
 	"fmt"
 	"github.com/hakkin/cddb/gracenote"
 	"log"
-	"strconv"
-	"strings"
+	"text/template"
 )
+
+var queryTemplate, readTemplate *template.Template
+
+func init() {
+	const queryTemplateString = `{{/**/ -}}
+211 Found inexact matches, list follows (until terminating marker)
+{{range . -}}
+Misc {{.GN_ID}} {{.Artist}} / {{.Title}}
+{{end -}}
+.
+`
+	const readTemplateString = `{{/**/ -}}
+210 OK, CDDB database entry follows (until terminating marker)
+DISCID={{.GN_ID}}
+DTITLE={{.Artist}} / {{.Title}}
+DYEAR={{.Date}}
+DGENRE={{.Genre}}
+{{range $index, $track := .Tracks -}}
+TTITLE{{$index}}={{with $track.Artist}}{{.}} / {{end}}{{$track.Title}}
+{{end -}}
+.
+`
+	queryTemplate = template.Must(template.New("queryTemplate").Parse(queryTemplateString))
+	readTemplate = template.Must(template.New("readTemplate").Parse(readTemplateString))
+}
 
 func cddbStatus(errorCode int, errorMessage string, endResponse bool) string {
 	var endCharacter string
@@ -21,17 +46,15 @@ func queryResponse(albums []gracenote.Album) (response string, err error) {
 		log.Println("query no match found")
 		return cddbStatus(202, "No match found", true), nil
 	}
-
-	responseString := []string{}
-	responseString = append(responseString, cddbStatus(211, "Found inexact matches, list follows (until terminating marker)", false))
-
-	for _, album := range albums {
-		responseString = append(responseString, "Misc "+album.GN_ID+" "+album.Artist+" / "+album.Title)
+	
+	responseBuffer := &bytes.Buffer{}
+	
+	err = queryTemplate.Execute(responseBuffer, albums)
+	if err != nil {
+		return "", err
 	}
-
-	responseString = append(responseString, ".")
-
-	return strings.Join(responseString, "\r\n"), nil
+	
+	return responseBuffer.String(), nil
 }
 
 func readResponse(albums []gracenote.Album, readCmd ReadCmd) (response string, err error) {
@@ -41,32 +64,13 @@ func readResponse(albums []gracenote.Album, readCmd ReadCmd) (response string, e
 	}
 
 	album := albums[0]
-
-	responseString := []string{}
-	responseString = append(responseString, cddbStatus(210, readCmd.category+" "+album.GN_ID+" CD database entry follows (until terminating `.')", false))
-	responseString = append(responseString, "DISCID="+album.GN_ID)
-	responseString = append(responseString, "DTITLE="+album.Artist+" / "+album.Title)
-	responseString = append(responseString, "DYEAR="+strconv.Itoa(album.Date))
-	responseString = append(responseString, "DGENRE="+album.Genre)
-
-	for i, v := range album.Tracks {
-		title := v.Title
-		if v.Artist != "" {
-			title = v.Artist + " / " + title
-		}
-
-		responseString = append(responseString, "TTITLE"+strconv.Itoa(i)+"="+title)
+	
+	responseBuffer := &bytes.Buffer{}
+	
+	err = readTemplate.Execute(responseBuffer, album)
+	if err != nil {
+		return "", err
 	}
-
-	responseString = append(responseString, "EXTD=")
-
-	for i := range album.Tracks {
-		responseString = append(responseString, "EXTT"+strconv.Itoa(i)+"=")
-	}
-
-	responseString = append(responseString, "PLAYORDER=")
-
-	responseString = append(responseString, ".\r\n")
-
-	return strings.Join(responseString, "\r\n"), nil
+	
+	return responseBuffer.String(), nil
 }
