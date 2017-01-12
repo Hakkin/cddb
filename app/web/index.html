@@ -1,0 +1,50 @@
+<html>
+<head>
+<style type="text/css">
+	p { font-family: "monospace"}
+</style>
+</head>
+<body>
+<p>This service requires a FreeDB (CDDB1) compatible client.<br><br>
+This service proxies FreeDB (CDDB1) requests to Gracenote (CDDB2), and returns the results in a FreeDB friendly format.<br>
+This makes any client that is able to communicate with FreeDB also able to communicate with Gracenote.<br><br>
+To use this service, set the FreeDB server address in your client to: <i>http://[domain]/cddb</i><br><br>
+This service allowed you to configure certain parameters of the requests.<br>
+You can set the <i>language</i> and <i>country</i> parameters of the Gracenote request using the URL path.<br>
+http://[domain]/cddb/<i>language</i>/<i>country</i><br>
+<i>language</i> should be a 3-length <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes"><i>ISO 639-2</i></a> code.<br>
+<i>country</i> should be a 3-length <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Current_codes"><i>ISO 3166-1 alpha-3</i></a> code.<br>
+You can read more about the effect of these parameters on Gracenote's WebAPI documentation: <a href="https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Setting%20the%20Language%20Preference.html">language</a>, <a href="https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Specifying a Country Specific.html">country</a><br><br>
+Examples<br>
+Request to <i>/cddb</i>
+<blockquote>
+&lt;ALBUM ORD=&quot;1&quot;&gt;<br>
+&emsp;&lt;GN_ID&gt;100670572-A296E2E68B5CB3590EDD5BEC3CE3D6BE&lt;/GN_ID&gt;<br>
+&emsp;&lt;ARTIST&gt;Amos Lee&lt;/ARTIST&gt;<br>
+&emsp;&lt;TITLE&gt;Colours&lt;/TITLE&gt;<br>
+&emsp;&lt;PKG_LANG&gt;ENG&lt;/PKG_LANG&gt;<br>
+&emsp;&lt;GENRE NUM=&quot;105245&quot; ID=&quot;35493&quot;&gt;Western Pop&lt;/GENRE&gt;<br>
+&lt;/ALBUM&gt;<br>
+</blockquote>
+Request to <i>/cddb/jpn</i>
+<blockquote>
+&lt;ALBUM ORD=&quot;1&quot;&gt;<br>
+&emsp;&lt;GN_ID&gt;100670572-A296E2E68B5CB3590EDD5BEC3CE3D6BE&lt;/GN_ID&gt;<br>
+&emsp;&lt;ARTIST&gt;Amos Lee&lt;/ARTIST&gt;<br>
+&emsp;&lt;TITLE&gt;Colours&lt;/TITLE&gt;<br>
+&emsp;&lt;PKG_LANG&gt;ENG&lt;/PKG_LANG&gt;<br>
+&emsp;&lt;GENRE NUM=&quot;105245&quot; ID=&quot;35493&quot;&gt;&#12509;&#12483;&#12503; (&#27915;&#27005;)&lt;/GENRE&gt;<br>
+&lt;/ALBUM&gt;<br>
+</blockquote>
+Request to <i>/cddb/eng/jpn</i>
+<blockquote>
+&lt;ALBUM ORD=&quot;1&quot;&gt;<br>
+&emsp;&lt;GN_ID&gt;100670572-A296E2E68B5CB3590EDD5BEC3CE3D6BE&lt;/GN_ID&gt;<br>
+&emsp;&lt;ARTIST&gt;Amos Lee&lt;/ARTIST&gt;<br>
+&emsp;&lt;TITLE&gt;Colours&lt;/TITLE&gt;<br>
+&emsp;&lt;PKG_LANG&gt;ENG&lt;/PKG_LANG&gt;<br>
+&emsp;&lt;GENRE NUM=&quot;70156&quot; ID=&quot;28782&quot;&gt;General Rock&lt;/GENRE&gt;<br>
+&lt;/ALBUM&gt;<br>
+</blockquote>
+</body>
+</html>

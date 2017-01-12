@@ -1,0 +1,12 @@
+version: cddb-001
+module: default
+runtime: go
+api_version: go1
+
+handlers:
+- url: /
+  static_files: web/index.html
+  upload: web/index.html
+
+- url: /cddb(/.*)?
+  script: _go_app
