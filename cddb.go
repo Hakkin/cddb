@@ -14,7 +14,7 @@ import (
 
 func CddbHttp(w http.ResponseWriter, r *http.Request) {
 	path := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
-	
+
 	abstract.Request = r
 
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")

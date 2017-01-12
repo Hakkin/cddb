@@ -1,8 +1,8 @@
 package cddb
 
 type config struct {
-	Client  string
-	User    string
+	Client string
+	User   string
 }
 
 var cddbConfig *config
