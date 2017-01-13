@@ -47,22 +47,24 @@ func createQueryCmd(cmdArray []string) (queryCmd QueryCmd, err error) {
 		return QueryCmd{}, syntaxError
 	}
 
+	queryCmd.offsets = make([]int, queryCmd.trackCount+1)
+
 	for i := 0; i < queryCmd.trackCount; i++ {
 		offset, err := strconv.Atoi(cmdArray[i+2])
 		if err != nil {
 			logSyntaxError(cmdArray)
 			return QueryCmd{}, syntaxError
 		}
-		queryCmd.offsets = append(queryCmd.offsets, offset)
+		queryCmd.offsets[i] = offset
 	}
-	
+
 	queryCmd.totalSeconds, err = strconv.Atoi(cmdArray[len(cmdArray)-1])
 	if err != nil {
 		logSyntaxError(cmdArray)
 		return QueryCmd{}, syntaxError
 	}
-	
-	queryCmd.offsets = append(queryCmd.offsets, queryCmd.totalSeconds*75)
+
+	queryCmd.offsets[len(queryCmd.offsets)-1] = queryCmd.totalSeconds * 75
 
 	if queryCmd.offsets[0] == 0 {
 		for i := range queryCmd.offsets {
