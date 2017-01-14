@@ -7,6 +7,8 @@ import (
 	"github.com/hakkin/cddb/abstract"
 	"net/http"
 	"strings"
+	
+	"golang.org/x/net/context"
 )
 
 func getEndpoint(clientID string) string {
@@ -14,7 +16,7 @@ func getEndpoint(clientID string) string {
 	return fmt.Sprintf("https://c%v.web.cddbp.net/webapi/xml/1.0/", clientNumber)
 }
 
-func QueryAlbum(query Queries) (albums []Album, err error) {
+func QueryAlbum(ctx context.Context, query Queries) (albums []Album, err error) {
 	endpoint := getEndpoint(query.Auth.Client)
 
 	buffer := &bytes.Buffer{}
@@ -25,8 +27,8 @@ func QueryAlbum(query Queries) (albums []Album, err error) {
 	if err != nil {
 		return nil, err
 	}
-
-	client := abstract.GetClient()
+	
+	client := abstract.GetClient(ctx)
 	response, err := client.Post(endpoint, "application/xml", buffer)
 	if err != nil {
 		return nil, err

@@ -10,12 +10,14 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	
+	"golang.org/x/net/context"
 )
 
 func CddbHttp(w http.ResponseWriter, r *http.Request) {
 	path := strings.Split(strings.Trim(r.URL.Path, "/"), "/")
 
-	abstract.Request = r
+	ctx := abstract.GetContext(r)
 
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	var reader io.Reader
@@ -60,7 +62,7 @@ func CddbHttp(w http.ResponseWriter, r *http.Request) {
 				queryCmd.country = v
 			}
 		}
-		response, err := Query(queryCmd)
+		response, err := Query(ctx, queryCmd)
 		if err != nil {
 			log.Println(err)
 			fmt.Fprint(w, err)
@@ -82,7 +84,7 @@ func CddbHttp(w http.ResponseWriter, r *http.Request) {
 				readCmd.country = v
 			}
 		}
-		response, err := Read(readCmd)
+		response, err := Read(ctx, readCmd)
 		if err != nil {
 			log.Println(err)
 			fmt.Fprint(w, err)
@@ -95,7 +97,7 @@ func CddbHttp(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Query(queryCmd QueryCmd) (response string, err error) {
+func Query(ctx context.Context, queryCmd QueryCmd) (response string, err error) {
 	query := gracenote.Queries{Language: queryCmd.language, Country: queryCmd.country}
 	query.Auth = gracenote.Auth{Client: cddbConfig.Client, User: cddbConfig.User}
 	query.Query = gracenote.Query{Command: "ALBUM_TOC"}
@@ -107,7 +109,7 @@ func Query(queryCmd QueryCmd) (response string, err error) {
 	}
 	query.Query.TOC = gracenote.TOC{Offsets: strings.Join(offsetsString, " ")}
 
-	albums, err := gracenote.QueryAlbum(query)
+	albums, err := gracenote.QueryAlbum(ctx, query)
 	if err != nil {
 		return "", err
 	}
@@ -120,13 +122,13 @@ func Query(queryCmd QueryCmd) (response string, err error) {
 	return response, nil
 }
 
-func Read(readCmd ReadCmd) (response string, err error) {
+func Read(ctx context.Context, readCmd ReadCmd) (response string, err error) {
 	query := gracenote.Queries{Language: readCmd.language, Country: readCmd.country}
 	query.Auth = gracenote.Auth{Client: cddbConfig.Client, User: cddbConfig.User}
 	query.Query = gracenote.Query{Command: "ALBUM_FETCH"}
 	query.Query.GN_ID = readCmd.discID
 
-	albums, err := gracenote.QueryAlbum(query)
+	albums, err := gracenote.QueryAlbum(ctx, query)
 	if err != nil {
 		return "", err
 	}

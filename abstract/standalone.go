@@ -5,11 +5,15 @@ package abstract
 import (
 	"net/http"
 	"time"
+	
+	"golang.org/x/net/context"
 )
 
-var Request *http.Request
+func GetContext(r *http.Request) context.Context {
+	return r.Context()
+}
 
-func GetClient() *http.Client {
+func GetClient(ctx context.Context) *http.Client {
 	client := &http.Client{}
 	client.Timeout = time.Second * 10
 	return client
