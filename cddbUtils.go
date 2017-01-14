@@ -13,18 +13,18 @@ func init() {
 	const queryTemplateString = `{{/**/ -}}
 211 Found inexact matches, list follows (until terminating marker)
 {{range . -}}
-Misc {{.GN_ID}} {{.Artist}} / {{.Title}}
+Misc {{.GN_ID}} {{with .Artist}}{{.}} / {{end}}{{.Title}}
 {{end -}}
 .
 `
 	const readTemplateString = `{{/**/ -}}
 210 OK, CDDB database entry follows (until terminating marker)
 DISCID={{.GN_ID}}
-DTITLE={{.Artist}} / {{.Title}}
-DYEAR={{.Date}}
-DGENRE={{.Genre}}
+DTITLE={{with .Artist}}{{.}} / {{end}}{{with .Title}}{{.}}{{end}}
+DYEAR={{with .Date}}{{.}}{{end}}
+DGENRE={{with .Genre}}{{.}}{{end}}
 {{range $index, $track := .Tracks -}}
-TTITLE{{$index}}={{with $track.Artist}}{{.}} / {{end}}{{$track.Title}}
+TTITLE{{$index}}={{with $track.Artist}}{{.}} / {{end}}{{with $track.Title}}{{.}}{{end}}
 {{end -}}
 .
 `
