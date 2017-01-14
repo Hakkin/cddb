@@ -6,7 +6,6 @@ import (
 	"github.com/hakkin/cddb/abstract"
 	"github.com/hakkin/cddb/gracenote"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -48,10 +47,10 @@ func CddbHttp(w http.ResponseWriter, r *http.Request) {
 	}
 	switch command {
 	case "query":
-		queryCmd, err := createQueryCmd(cmdArray)
-		if err != nil {
-			log.Println(err)
-			fmt.Fprint(w, err)
+		queryCmd, ok := createQueryCmd(cmdArray)
+		if ok != true {
+			abstract.Errorf(ctx, "Query syntax error: %v", cmdArray)
+			fmt.Fprint(w, cddbStatus(500, "Command syntax error", true))
 			return
 		}
 		for i, v := range path {
@@ -64,16 +63,16 @@ func CddbHttp(w http.ResponseWriter, r *http.Request) {
 		}
 		response, err := Query(ctx, queryCmd)
 		if err != nil {
-			log.Println(err)
+			abstract.Errorf(ctx, "Query error: %v", err)
 			fmt.Fprint(w, err)
 			return
 		}
 		fmt.Fprint(w, response)
 	case "read":
-		readCmd, err := createReadCmd(cmdArray)
-		if err != nil {
-			log.Println(err)
-			fmt.Fprint(w, err)
+		readCmd, ok := createReadCmd(cmdArray)
+		if ok != true {
+			abstract.Errorf(ctx, "Read syntax error: %v", cmdArray)
+			fmt.Fprint(w, cddbStatus(500, "Command syntax error", true))
 			return
 		}
 		for i, v := range path {
@@ -86,7 +85,7 @@ func CddbHttp(w http.ResponseWriter, r *http.Request) {
 		}
 		response, err := Read(ctx, readCmd)
 		if err != nil {
-			log.Println(err)
+			abstract.Errorf(ctx, "Read error: %v", err)
 			fmt.Fprint(w, err)
 			return
 		}
@@ -113,6 +112,8 @@ func Query(ctx context.Context, queryCmd QueryCmd) (response string, err error) 
 	if err != nil {
 		return "", err
 	}
+	
+	abstract.Infof(ctx, "Query returned %v results", len(albums))
 
 	response, err = queryResponse(albums)
 	if err != nil {
@@ -131,6 +132,12 @@ func Read(ctx context.Context, readCmd ReadCmd) (response string, err error) {
 	albums, err := gracenote.QueryAlbum(ctx, query)
 	if err != nil {
 		return "", err
+	}
+	
+	if len(albums) != 0 {
+		abstract.Infof(ctx, "Read returned %v / %v", albums[0].Artist, albums[0].Title)
+	} else {
+		abstract.Infof(ctx, "Read didn't find a match")
 	}
 
 	response, err = readResponse(albums, readCmd)

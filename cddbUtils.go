@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/hakkin/cddb/gracenote"
-	"log"
 	"text/template"
 )
 
@@ -43,7 +42,6 @@ func cddbStatus(errorCode int, errorMessage string, endResponse bool) string {
 
 func queryResponse(albums []gracenote.Album) (response string, err error) {
 	if len(albums) == 0 {
-		log.Println("query no match found")
 		return cddbStatus(202, "No match found", true), nil
 	}
 
@@ -59,7 +57,6 @@ func queryResponse(albums []gracenote.Album) (response string, err error) {
 
 func readResponse(albums []gracenote.Album, readCmd ReadCmd) (response string, err error) {
 	if len(albums) == 0 {
-		log.Println("read no match found")
 		return cddbStatus(401, readCmd.category+" "+readCmd.discID+" Specified CDDB entry not found", true), nil
 	}
 

@@ -1,8 +1,6 @@
 package cddb
 
 import (
-	"fmt"
-	"log"
 	"strconv"
 )
 
@@ -22,29 +20,21 @@ type ReadCmd struct {
 	country  string
 }
 
-var syntaxError error = fmt.Errorf("%v", cddbStatus(500, "Command syntax error", true))
-
-func logSyntaxError(cmdArray []string) {
-	log.Println("syntax error:")
-	log.Println(cmdArray)
-}
-
-func createQueryCmd(cmdArray []string) (queryCmd QueryCmd, err error) {
+func createQueryCmd(cmdArray []string) (queryCmd QueryCmd, ok bool) {
 	if len(cmdArray) < 4 {
-		logSyntaxError(cmdArray)
-		return QueryCmd{}, syntaxError
+		return QueryCmd{}, false
 	}
+	
+	var err error
 
 	queryCmd.discID = cmdArray[0]
 	queryCmd.trackCount, err = strconv.Atoi(cmdArray[1])
 	if err != nil {
-		logSyntaxError(cmdArray)
-		return QueryCmd{}, syntaxError
+		return QueryCmd{}, false
 	}
 
 	if len(cmdArray[2:len(cmdArray)-1]) != queryCmd.trackCount {
-		logSyntaxError(cmdArray)
-		return QueryCmd{}, syntaxError
+		return QueryCmd{}, false
 	}
 
 	queryCmd.offsets = make([]int, queryCmd.trackCount+1)
@@ -52,16 +42,14 @@ func createQueryCmd(cmdArray []string) (queryCmd QueryCmd, err error) {
 	for i := 0; i < queryCmd.trackCount; i++ {
 		offset, err := strconv.Atoi(cmdArray[i+2])
 		if err != nil {
-			logSyntaxError(cmdArray)
-			return QueryCmd{}, syntaxError
+			return QueryCmd{}, false
 		}
 		queryCmd.offsets[i] = offset
 	}
 
 	queryCmd.totalSeconds, err = strconv.Atoi(cmdArray[len(cmdArray)-1])
 	if err != nil {
-		logSyntaxError(cmdArray)
-		return QueryCmd{}, syntaxError
+		return QueryCmd{}, false
 	}
 
 	queryCmd.offsets[len(queryCmd.offsets)-1] = queryCmd.totalSeconds * 75
@@ -72,17 +60,16 @@ func createQueryCmd(cmdArray []string) (queryCmd QueryCmd, err error) {
 		}
 	}
 
-	return queryCmd, nil
+	return queryCmd, true
 }
 
-func createReadCmd(cmdArray []string) (readCmd ReadCmd, err error) {
+func createReadCmd(cmdArray []string) (readCmd ReadCmd, ok bool) {
 	if len(cmdArray) != 2 {
-		logSyntaxError(cmdArray)
-		return ReadCmd{}, syntaxError
+		return ReadCmd{}, false
 	}
 
 	readCmd.category = cmdArray[0]
 	readCmd.discID = cmdArray[1]
 
-	return readCmd, nil
+	return readCmd, true
 }
