@@ -1,4 +1,4 @@
-version: cddb-002
+version: cddb-003
 module: default
 runtime: go
 api_version: go1
