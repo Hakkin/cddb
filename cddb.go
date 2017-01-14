@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	
+
 	"golang.org/x/net/context"
 )
 
@@ -112,7 +112,7 @@ func Query(ctx context.Context, queryCmd QueryCmd) (response string, err error) 
 	if err != nil {
 		return "", err
 	}
-	
+
 	abstract.Infof(ctx, "Query returned %v results", len(albums))
 
 	response, err = queryResponse(albums)
@@ -133,7 +133,7 @@ func Read(ctx context.Context, readCmd ReadCmd) (response string, err error) {
 	if err != nil {
 		return "", err
 	}
-	
+
 	if len(albums) != 0 {
 		abstract.Infof(ctx, "Read returned %v / %v", albums[0].Artist, albums[0].Title)
 	} else {

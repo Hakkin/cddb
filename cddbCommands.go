@@ -24,7 +24,7 @@ func createQueryCmd(cmdArray []string) (queryCmd QueryCmd, ok bool) {
 	if len(cmdArray) < 4 {
 		return QueryCmd{}, false
 	}
-	
+
 	var err error
 
 	queryCmd.discID = cmdArray[0]
