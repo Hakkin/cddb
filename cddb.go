@@ -64,7 +64,7 @@ func CddbHttp(w http.ResponseWriter, r *http.Request) {
 		response, err := Query(ctx, queryCmd)
 		if err != nil {
 			abstract.Errorf(ctx, "Query error: %v", err)
-			fmt.Fprint(w, err)
+			fmt.Fprint(w, cddbStatus(402, "Server error", true))
 			return
 		}
 		fmt.Fprint(w, response)
@@ -86,7 +86,7 @@ func CddbHttp(w http.ResponseWriter, r *http.Request) {
 		response, err := Read(ctx, readCmd)
 		if err != nil {
 			abstract.Errorf(ctx, "Read error: %v", err)
-			fmt.Fprint(w, err)
+			fmt.Fprint(w, cddbStatus(402, "Server error", true))
 			return
 		}
 		fmt.Fprint(w, response)
