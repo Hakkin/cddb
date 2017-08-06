@@ -3,7 +3,7 @@
 package main
 
 import (
-	"github.com/hakkin/cddb"
+	"github.com/Hakkin/cddb"
 	"net/http"
 )
 

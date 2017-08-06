@@ -3,7 +3,7 @@ package cddb
 import (
 	"bytes"
 	"fmt"
-	"github.com/hakkin/cddb/gracenote"
+	"github.com/Hakkin/cddb/gracenote"
 	"text/template"
 )
 

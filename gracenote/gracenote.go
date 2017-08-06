@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
-	"github.com/hakkin/cddb/abstract"
+	"github.com/Hakkin/cddb/abstract"
 	"net/http"
 	"strings"
 	

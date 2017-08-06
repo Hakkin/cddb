@@ -3,8 +3,8 @@ package cddb
 import (
 	"bufio"
 	"fmt"
-	"github.com/hakkin/cddb/abstract"
-	"github.com/hakkin/cddb/gracenote"
+	"github.com/Hakkin/cddb/abstract"
+	"github.com/Hakkin/cddb/gracenote"
 	"io"
 	"net/http"
 	"strconv"
