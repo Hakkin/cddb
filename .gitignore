@@ -24,8 +24,10 @@ _testmain.go
 *.prof
 
 # Config files
+config.go
 
 # Web files
+index.html
 
 # Build files
 build/*
