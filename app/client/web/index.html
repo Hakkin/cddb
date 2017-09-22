@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Gracenote to FreeDB Proxy</title>
+	<link href="/css/sakura.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<center>
+		<h1>Gracenote → FreeDB Proxy</h1>
+		<p><a href="https://github.com/Hakkin/cddb">View source on Github</a></p>
+	</center>
+	<h3>What is this?</h3>
+	<p>This is a proxy that allows FreeDB aware software to access metadata from the Gracenote CD database.</p>
+	<h3>How do I use it?</h3>
+	<p>Simply set the FreeDB server in your client to the following address:</p>
+	<pre><code>http://[domain]/cddb</code></pre>
+	<h3>Parameters</h3>
+	<p>The proxy allows you to set certain parameters using the URL path:</p>
+	<p></p>
+	<pre><code>http://[domain]/cddb[/language][/country]</code></pre>
+	<ul>
+		<li>language
+			<ul>
+				<li>Specifies the preferred language for the returned metadata.<br>
+					For the proxy, this only affects the returned genre name.<br>
+					This should be a 3 character <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes">ISO 639-2</a> code.
+				</li>
+			</ul>
+		</li>
+		<li>country
+			<ul>
+				<li>Specifies the country to use for the "genre hierarchy".<br>
+					This should be a 3 character <a href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO 3166-1 alpha-3</a> code.<br>
+					Please refer to the examples below and the Gracenote API documentation for the specific use of this parameter.
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<h5>Parameter Examples</h5>
+	<p>The default response:</p>
+	<pre><code>http://[domain]/cddb
+Genre: Asian Hip-Hop/Rap</code></pre><br>
+	<p>Setting the language to German:</p>
+	<pre><code>http://[domain]/cddb/ger
+Genre: Asiatischer Hip-Hop/Rap</code></pre>
+	<p>This simply translates the genre into the preferred language, but doesn't otherwise modify it.</p><br>
+	<p>Setting the language to English and the country to Japan:</p>
+	<pre><code>http://[domain]/cddb/eng/jpn
+Genre: Hip-Hop/Rap</code></pre>
+	<p>Notice how with the country set to Japan, the genre no longer has the "Asian" specifier.</p><br>
+	<p>You can read more about the effects of these parameters on Gracenote's WebAPI Documentation: <a href="https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Setting%20the%20Language%20Preference.html"><code>language</code></a> + <a href="https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Specifying%20a%20Country%20Specific.html"><code>country</code></a></p>
+</body>
+</html>

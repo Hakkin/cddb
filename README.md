@@ -1,63 +1,59 @@
-This service proxies FreeDB (CDDB1) requests to Gracenote (CDDB2), and returns the results in a FreeDB friendly format.  
-This makes any client that is able to communicate with FreeDB also able to communicate with Gracenote.
+Gracenote → FreeDB Proxy
+-
 
-## Running
-This service can be ran as either a standalone executable (self-hosting) or on Google App Engine  
-To run the service standalone, simply run `go build` or `go install` from the `app` directory, then start `app`  
-By default, the standalone version will run on port `8080`, you can change this in `app.go`
+### What is this?
+This is a proxy that allows FreeDB aware software to access metadata from the Gracenote CD database.
 
-To deploy on Google App Engine, deploy from the `app` directory.
+The root `cddb` package can also be used as a rudimentary Gracenote library.
 
-## Configuration
+### How do I use it?
+This proxy can be ran as either a standalone executable (self-hosting) or on Google App Engine.
 
-You must provide your Gracenote Client and User ID in config.go for the service to work.  
+You can build the standalone executable using the build-\* shell/batch files in the `app/client` directory, or by manually running `go build standalone.go` inside the `app/client` directory.
+
+By default, the standalone version will bind to `127.0.0.1:8080`, you can change this in `app/client/standalone.go`
+
+To deploy on Google App Engine, deploy using `gcloud app deploy` from the `app/client` directory.
+
+### Configuration
+You must provide your Gracenote Client and User ID in `app/config/config.go` for the service to work.  
 You can find more about this at https://developer.gracenote.com/web-api
 
-## Parameters
+### Parameters
+The proxy allows you to set certain parameters using the URL path:
+`http://[domain]/cddb[/language][/country]`
 
-This service allowed you to configure certain parameters of the requests.  
-You can set the *language* and *country* parameters of the Gracenote request using the URL path.
+- language
+  - Specifies the preferred language for the returned metadata.  
+    For the proxy, this only affects the returned genre name.  
+    This should be a 3 character [ISO 639-2](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) code. 
+- country
+  - Specifies the country to use for the "genre hierarchy".  
+    This should be a 3 character [ISO 3166-1 alpha-3](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3) code.  
+    Please refer to the examples below and the Gracenote API documentation for the specific use of this parameter.
 
-`http://[domain]/cddb/language/country`
+##### Parameter Examples
+The default response:
 
-*language* should be a 3-length [*ISO 639-2*](https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes) code.  
-*country* should be a 3-length [*ISO 3166-1 alpha-3*](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3#Current_codes) code.  
-You can read more about the effect of these parameters on Gracenote's WebAPI documentation: [`language`](https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Setting%20the%20Language%20Preference.html), [`country`](https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Specifying%20a%20Country%20Specific.html)
+    http://[domain]/cddb
+    Genre: Asian Hip-Hop/Rap
 
+---
 
-## Example of parameters
+Setting the language to German:
 
-These show a few examples of the affects the parameters have one the responses from Gracenote
+    http://[domain]/cddb/ger
+    Genre: Asiatischer Hip-Hop/Rap
+This simply translates the genre into the preferred language, but doesn't otherwise modify it.
 
-Request to */cddb*
-```
-<ALBUM ORD="1">
-	<GN_ID>100670572-A296E2E68B5CB3590EDD5BEC3CE3D6BE</GN_ID>
-	<ARTIST>Amos Lee</ARTIST>
-	<TITLE>Colours</TITLE>
-	<PKG_LANG>ENG</PKG_LANG>
-	<GENRE NUM="105245" ID="35493">Western Pop</GENRE>
-</ALBUM>
-```
+---
 
-Request to */cddb/jpn*
-```
-<ALBUM ORD="1">
-	<GN_ID>100670572-A296E2E68B5CB3590EDD5BEC3CE3D6BE</GN_ID>
-	<ARTIST>Amos Lee</ARTIST>
-	<TITLE>Colours</TITLE>
-	<PKG_LANG>ENG</PKG_LANG>
-	<GENRE NUM="105245" ID="35493">ポップ (洋楽)</GENRE>
-</ALBUM>
-```
+Setting the language to English and the country to Japan:
 
-Request to */cddb/eng/jpn*
-```
-<ALBUM ORD="1">
-	<GN_ID>100670572-A296E2E68B5CB3590EDD5BEC3CE3D6BE</GN_ID>
-	<ARTIST>Amos Lee</ARTIST>
-	<TITLE>Colours</TITLE>
-	<PKG_LANG>ENG</PKG_LANG>
-	<GENRE NUM="70156" ID="28782">General Rock</GENRE>
-</ALBUM>
-```
+    http://[domain]/cddb/eng/jpn
+    Genre: Hip-Hop/Rap
+Notice how with the country set to Japan, the genre no longer has the "Asian" specifier.
+
+---
+
+You can read more about the effects of these parameters on Gracenote's WebAPI Documentation: [`language`](https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Setting%20the%20Language%20Preference.html) + [`country`](https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Specifying%20a%20Country%20Specific.html)
