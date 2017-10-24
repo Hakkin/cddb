@@ -15,6 +15,11 @@ By default, the standalone version will bind to `127.0.0.1:8080`, you can change
 
 To deploy on Google App Engine, deploy using `gcloud app deploy` from the `app/client` directory.
 
+Once the server is running, simply set the FreeDB server in your client to:
+`http://[domain]/cddb`
+
+For the standalone executable, `[domain]` will be 127.0.0.1:8080 by default, for Google App Engine, it will be the AppSpot domain for your project (or a custom domain if you have it configured).
+
 ### Configuration
 You must provide your Gracenote Client and User ID in `app/config/config.go` for the service to work.  
 You can find more about this at https://developer.gracenote.com/web-api
