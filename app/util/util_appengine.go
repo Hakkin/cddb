@@ -29,7 +29,9 @@ func (l *logger) Errorf(format string, args ...interface{}) {
 }
 
 func HTTPClient(r *http.Request) *http.Client {
-	httpClient := urlfetch.Client(appengine.NewContext(r))
+	ctx := appengine.NewContext(r)
+	ctx, _ = context.WithTimeout(ctx, time.Second * 10)
+	httpClient := urlfetch.Client(ctx)
 	httpClient.Timeout = time.Second * 10
 	return httpClient
 }
