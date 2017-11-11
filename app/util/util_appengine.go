@@ -30,8 +30,8 @@ func (l *logger) Errorf(format string, args ...interface{}) {
 
 func HTTPClient(r *http.Request) *http.Client {
 	ctx := appengine.NewContext(r)
-	ctx, _ = context.WithTimeout(ctx, time.Second * 10)
+	ctx, _ = context.WithTimeout(ctx, time.Second * 30)
 	httpClient := urlfetch.Client(ctx)
-	httpClient.Timeout = time.Second * 10
+	httpClient.Timeout = time.Second * 30
 	return httpClient
 }

@@ -23,5 +23,5 @@ func (l *logger) Errorf(format string, args ...interface{}) {
 }
 
 func HTTPClient(r *http.Request) *http.Client {
-	return &http.Client{Timeout: time.Second * 10}
+	return &http.Client{Timeout: time.Second * 30}
 }
