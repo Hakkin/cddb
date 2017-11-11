@@ -31,3 +31,6 @@ index.html
 
 # Build files
 build/*
+
+# Database
+*.db
