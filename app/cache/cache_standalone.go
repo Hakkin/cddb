@@ -25,16 +25,21 @@ func (c *Cache) New(r *http.Request) *RCache {
 	return &RCache{Cache: c, r: r}
 }
 
-func (c *RCache) Set(id string) (string, error) {
+func (c *RCache) Set(ids ...string) ([]string, error) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
-	newID, err := translate(id)
-	if err != nil {
-		return "", err
+	newIDs := make([]string, len(ids))
+	var err error
+	for i, id := range ids {
+		newIDs[i], err = translate(id)
+		if err != nil {
+			return nil, err
+		}
+		c.ids[newIDs[i]] = id
 	}
-	c.ids[newID] = id
-	return newID, nil
+
+	return newIDs, nil
 }
 
 func (c *RCache) Get(id string) (string, bool) {

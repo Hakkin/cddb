@@ -114,13 +114,20 @@ func CDDB(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if command == "query" {
+		ids := make([]string, len(resp.Albums))
 		for i := range resp.Albums {
-			resp.Albums[i].ID, err = rCache.Set(resp.Albums[i].ID)
-			if err != nil {
-				log.Errorf("%v", err)
-				fmt.Fprint(w, seErrStr)
-				return
-			}
+			ids[i] = resp.Albums[i].ID
+		}
+		
+		newIDs, err := rCache.Set(ids...)
+		if err != nil {
+			log.Errorf("%v", err)
+			fmt.Fprint(w, seErrStr)
+			return
+		}
+		
+		for i := range resp.Albums {
+			resp.Albums[i].ID = newIDs[i]
 		}
 	}
 

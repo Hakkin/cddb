@@ -28,21 +28,27 @@ func (c *Cache) New(r *http.Request) *RCache {
 	return &RCache{Cache: c, r: r}
 }
 
-func (c *RCache) Set(id string) (string, error) {
-	newID, err := translate(id)
-	if err != nil {
-		return "", err
+func (c *RCache) Set(ids ...string) ([]string, error) {
+	idCount := len(ids)
+	newIDs := make([]string, idCount)
+	idEntitys := make([]*key, idCount)
+	idKeys := make([]*datastore.Key, idCount)
+	var err error
+	for i, id := range ids {
+		newIDs[i], err = translate(id)
+		if err != nil {
+			return nil, err
+		}
+		idEntitys[i] = &key{Value: id}
+
+		idKeys[i] = datastore.NewKey(appengine.NewContext(c.r), "ID", newIDs[i], 0, nil)
 	}
-	idEntity := &key{Value: id}
-
-	idKey := datastore.NewKey(appengine.NewContext(c.r), "ID", newID, 0, nil)
-
-	_, err = datastore.Put(appengine.NewContext(c.r), idKey, idEntity)
+	_, err = datastore.PutMulti(appengine.NewContext(c.r), idKeys, idEntitys)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return newID, nil
+	return newIDs, nil
 }
 
 func (c *RCache) Get(id string) (string, bool) {
