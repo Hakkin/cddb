@@ -10,10 +10,11 @@ import (
 	"strconv"
 	"strings"
 	"text/template"
+	"time"
 
 	"github.com/Hakkin/cddb/app/cache"
 	"github.com/Hakkin/cddb/app/config"
-	"github.com/Hakkin/cddb/app/util"
+	"github.com/Hakkin/cddb/app/log"
 
 	"github.com/Hakkin/cddb"
 )
@@ -36,7 +37,7 @@ var idCache *cache.Cache = cache.New()
 func CDDB(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 
-	log := util.Logger(r)
+	logger := log.WithRequest(r)
 	rCache := idCache.New(r)
 
 	var reader io.Reader
@@ -69,7 +70,7 @@ func CDDB(w http.ResponseWriter, r *http.Request) {
 	var query *cddb.Query
 	query, err := makeQuery(command, cmdArg...)
 	if err != nil {
-		log.Errorf("%v", err)
+		logger.Errorf("%v", err)
 		fmt.Fprint(w, csErrStr)
 		return
 	}
@@ -78,7 +79,7 @@ func CDDB(w http.ResponseWriter, r *http.Request) {
 		var ok bool
 		query.ID, ok = rCache.Get(query.ID)
 		if !ok {
-			log.Errorf("%v", fmt.Errorf(rsErrFStr, cmdArg))
+			logger.Errorf("%v", fmt.Errorf(rsErrFStr, cmdArg))
 			fmt.Fprint(w, csErrStr)
 			return
 		}
@@ -86,7 +87,7 @@ func CDDB(w http.ResponseWriter, r *http.Request) {
 
 	client := &cddb.Client{}
 
-	client.SetHTTPClient(util.HTTPClient(r))
+	client.SetHTTPClient(&http.Client{Timeout: time.Second * 30})
 
 	client.SetAuth(config.Client, config.User)
 
@@ -102,13 +103,13 @@ func CDDB(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(query)
 	if err != nil {
-		log.Errorf("%v", err)
+		logger.Errorf("%v", err)
 		fmt.Fprint(w, seErrStr)
 		return
 	}
 
 	if resp.Status == "NO_MATCH" {
-		log.Infof("Query returned no matches")
+		logger.Infof("Query returned no matches")
 		fmt.Fprint(w, nmErrStr)
 		return
 	}
@@ -121,7 +122,7 @@ func CDDB(w http.ResponseWriter, r *http.Request) {
 
 		newIDs, err := rCache.Set(ids...)
 		if err != nil {
-			log.Errorf("%v", err)
+			logger.Errorf("%v", err)
 			fmt.Fprint(w, seErrStr)
 			return
 		}
@@ -133,16 +134,16 @@ func CDDB(w http.ResponseWriter, r *http.Request) {
 
 	output, err := parseResponse(command, resp)
 	if err != nil {
-		log.Errorf("%v", err)
+		logger.Errorf("%v", err)
 		fmt.Fprint(w, seErrStr)
 		return
 	}
 
 	switch command {
 	case "query":
-		log.Infof("Query returned %v matches", len(resp.Albums))
+		logger.Infof("Query returned %v matches", len(resp.Albums))
 	case "read":
-		log.Infof("Read returned %v / %v", resp.Albums[0].Artist, resp.Albums[0].Title)
+		logger.Infof("Read returned %v / %v", resp.Albums[0].Artist, resp.Albums[0].Title)
 	}
 
 	fmt.Fprint(w, output)

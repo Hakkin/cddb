@@ -3,11 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"github.com/Hakkin/cddb/app/handler"
+	"github.com/Hakkin/cddb/app/log"
 )
 
 var (
@@ -35,9 +35,10 @@ func main() {
 	http.HandleFunc("/cddb", handler.CDDB)
 	http.HandleFunc("/cddb/", handler.CDDB)
 
-	log.Printf("Listening on %s:%s\n", addr, port)
+	log.Infof("Listening on %s:%s\n", addr, port)
 
 	if err := http.ListenAndServe(fmt.Sprintf("%s:%s", addr, port), nil); err != nil {
-		log.Fatal("Server exited with error: ", err)
+		log.Errorf("Server exited with error: %v\n", err)
+		os.Exit(1)
 	}
 }
