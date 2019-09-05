@@ -12,17 +12,10 @@ import (
 
 var (
 	addr string
-	port string
+	port = "8080"
 )
 
 func init() {
-	flag.StringVar(&addr, "address", "", "The address to listen on")
-	flag.StringVar(&port, "port", "8080", "The port to listen on")
-}
-
-func main() {
-	flag.Parse()
-
 	if addrEnv := os.Getenv("ADDR"); addrEnv != "" {
 		addr = addrEnv
 	}
@@ -30,6 +23,13 @@ func main() {
 	if portEnv := os.Getenv("PORT"); portEnv != "" {
 		port = portEnv
 	}
+
+	flag.StringVar(&addr, "address", addr, "The address to listen on")
+	flag.StringVar(&port, "port", port, "The port to listen on")
+}
+
+func main() {
+	flag.Parse()
 
 	http.Handle("/", http.FileServer(http.Dir("./web")))
 	http.HandleFunc("/cddb", handler.CDDB)
