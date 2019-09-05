@@ -1,5 +1,3 @@
-// +build !appengine
-
 package cache
 
 import (
@@ -7,25 +5,21 @@ import (
 	"sync"
 )
 
-type Cache struct {
+type StandardCache struct {
 	mu  sync.RWMutex
 	ids map[string]string
 }
 
-type RCache struct {
-	*Cache
+type StandardRCache struct {
+	*StandardCache
 	r *http.Request
 }
 
-func New() *Cache {
-	return &Cache{ids: make(map[string]string)}
+func (c *StandardCache) New(r *http.Request) RCacher {
+	return &StandardRCache{StandardCache: c, r: r}
 }
 
-func (c *Cache) New(r *http.Request) *RCache {
-	return &RCache{Cache: c, r: r}
-}
-
-func (c *RCache) Set(ids ...string) ([]string, error) {
+func (c *StandardRCache) Set(ids ...string) ([]string, error) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
@@ -42,7 +36,7 @@ func (c *RCache) Set(ids ...string) ([]string, error) {
 	return newIDs, nil
 }
 
-func (c *RCache) Get(id string) (string, bool) {
+func (c *StandardRCache) Get(id string) (string, bool) {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
 
