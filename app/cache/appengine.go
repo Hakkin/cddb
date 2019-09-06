@@ -30,7 +30,7 @@ func init() {
 		client, err := datastore.NewClient(
 			context.Background(),
 			projectID,
-			option.WithCredentialsFile("appengine.go"),
+			option.WithCredentialsFile("appengine.json"),
 		)
 		if err != nil {
 			panic(err)
