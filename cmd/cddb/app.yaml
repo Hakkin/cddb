@@ -15,4 +15,4 @@ handlers:
   static_dir: web/css
 
 - url: /cddb(/.*)?
-  script: _go_app
+  script: auto
