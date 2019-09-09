@@ -31,3 +31,6 @@ gracenote.yaml
 
 # Appengine secrets
 appengine.json
+
+# Appengine files
+.gcloudignore
