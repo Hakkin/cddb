@@ -28,3 +28,6 @@ build/*
 
 # Gracenote API keys
 gracenote.yaml
+
+# Appengine secrets
+appengine.json
