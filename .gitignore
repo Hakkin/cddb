@@ -23,9 +23,6 @@ _testmain.go
 *.test
 *.prof
 
-# Web files
-index.html
-
 # Build files
 build/*
 
