@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Hakkin/cddb/app/handler"
-	"github.com/Hakkin/cddb/app/log"
+	"github.com/Hakkin/cddb/cmd/cddb/handler"
+	"github.com/Hakkin/cddb/cmd/cddb/log"
 )
 
 var (

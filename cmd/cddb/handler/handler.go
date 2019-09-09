@@ -12,9 +12,9 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/Hakkin/cddb/app/cache"
-	"github.com/Hakkin/cddb/app/config"
-	"github.com/Hakkin/cddb/app/log"
+	"github.com/Hakkin/cddb/cmd/cddb/cache"
+	"github.com/Hakkin/cddb/cmd/cddb/config"
+	"github.com/Hakkin/cddb/cmd/cddb/log"
 
 	"github.com/Hakkin/cddb"
 )
