@@ -6,16 +6,23 @@
 	<link href="/css/sakura.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-	<center>
+	<div style="text-align: center">
 		<h1>Gracenote → FreeDB Proxy</h1>
 		<p><a href="https://github.com/Hakkin/cddb">View source on Github</a></p>
-	</center>
+	</div><hr>
 	<h3>What is this?</h3>
 	<p>This is a proxy that allows FreeDB aware software to access metadata from the Gracenote CD database.</p>
 	<h3>How do I use it?</h3>
 	<p>Simply set the FreeDB server in your client to the following address:</p>
 	<pre><code>http://[domain]/cddb</code></pre>
-	<h3>Parameters</h3>
+	<p>Some clients require additional configuration, pages have been created to help configure various clients:</p>
+	<ul>
+		<li><a href="/eac.html">Exact Audio Copy (EAC)</a></li>
+		<li><a href="/mp3tag.html">Mp3tag</a></li>
+		<li><a href="/fb2k.html">foobar2000</a></li>
+	</ul>
+	<h3>Advanced Usage</h3>
+	<h4>Parameters</h4>
 	<p>The proxy allows you to set certain parameters using the URL path:</p>
 	<p></p>
 	<pre><code>http://[domain]/cddb[/language][/country]</code></pre>
@@ -40,15 +47,15 @@
 	<h5>Parameter Examples</h5>
 	<p>The default response:</p>
 	<pre><code>http://[domain]/cddb
-Genre: Asian Hip-Hop/Rap</code></pre><br>
+Genre: Asian Hip-Hop/Rap</code></pre><hr>
 	<p>Setting the language to German:</p>
 	<pre><code>http://[domain]/cddb/ger
 Genre: Asiatischer Hip-Hop/Rap</code></pre>
-	<p>This simply translates the genre into the preferred language, but doesn't otherwise modify it.</p><br>
+	<p>This simply translates the genre into the preferred language, but doesn't otherwise modify it.</p><hr>
 	<p>Setting the language to English and the country to Japan:</p>
 	<pre><code>http://[domain]/cddb/eng/jpn
 Genre: Hip-Hop/Rap</code></pre>
-	<p>Notice how with the country set to Japan, the genre no longer has the "Asian" specifier.</p><br>
+	<p>Notice how with the country set to Japan, the genre no longer has the "Asian" specifier.</p><hr>
 	<p>You can read more about the effects of these parameters on Gracenote's WebAPI Documentation: <a href="https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Setting%20the%20Language%20Preference.html"><code>language</code></a> + <a href="https://developer.gracenote.com/sites/default/files/web/webapi/Content/music-web-api/Specifying%20a%20Country%20Specific.html"><code>country</code></a></p>
 </body>
 </html>

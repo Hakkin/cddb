@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Gracenote to FreeDB Proxy - Exact Audio Copy Configuration Configuration</title>
+  <link href="/css/sakura.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    img {
+      border: 1px dotted black;
+    }
+  </style>
+</head>
+<body>
+	<div style="text-align: center">
+		<h1>Gracenote → FreeDB Proxy</h1>
+		<p><a href="https://github.com/Hakkin/cddb">View source on Github</a></p>
+    <h2>Exact Audio Copy Configuration</h2><hr>
+  </div>
+  <ol>
+    <li>
+        <p>You must have the "freedb Metadata Plugin" installed to use the proxy with Exact Audio Copy, the built in freedb will not work.</p>
+        <p>To install this, check the box next to it during installation.</p>
+        <img src="./img/eac_install.png" alt="'Exact Audio Copy' installation window with 'freedb Metadata Plugin' checked">
+    </li>
+    <li>
+      <p>Once you have confirmed the "freedb Metadata Plugin" is installed, access the metadata options through the "EAC → Metadata Options" menu.</p>
+      <img src="./img/eac_metadata.png" alt="'EAC' menu with 'Metadata Options' highlighted">
+    </li>
+    <li>
+      <p>In the "Metadata Provider" tab, select "freedb Metadata Plugin" from the provider list.</p>
+      <img src="./img/eac_provider.png" alt="Dropdown with 'freedb Metadata Plugin' selected">
+    </li>
+    <li>
+      <p>Click "Show options of the selected metadata provider".</p>
+      <img src="./img/eac_options.png" alt="Button labeled 'Show options of the selected metadata provider'">
+    </li>
+    <li>
+      <p>Put the server link in the "Use freedb server" text box.</p>
+      <img src="./img/eac_server.png" alt="Window with text box containing server link">
+    </li>
+    <li>
+      <p>Close the window and click "OK".</p>
+    </li>
+    <li>
+      <p>To make it so CDs automatically get tagged using the freedb server, access the EAC options through the "EAC → EAC Options" menu.</p>
+      <img src="./img/eac_eac.png" alt="'EAC' menu with 'EAC Options' highlighted">
+    </li>
+    <li>
+      <p>In the "General" tab, check "On unknown CDs," and select the "automatically access online metadata databse" option.</p>
+      <img src="./img/eac_general.png" alt="Window with 'On unknow CDs' checked and 'automatically access online metadata databse' selected">
+    </li>
+    <li>
+      <p>Setup is complete, insert a CD to test!</p>
+    </li>
+  </ol>
+</body>
+</html>

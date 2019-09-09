@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Gracenote to FreeDB Proxy - Mp3tag Configuration Configuration</title>
+  <link href="/css/sakura.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    img {
+      border: 1px dotted black;
+    }
+  </style>
+</head>
+<body>
+	<div style="text-align: center">
+		<h1>Gracenote → FreeDB Proxy</h1>
+		<p><a href="https://github.com/Hakkin/cddb">View source on Github</a></p>
+    <h2>Mp3tag Configuration</h2><hr>
+  </div>
+  <ol>
+    <li>
+      <p>Access the Mp3tag options through the "Tools → Options" menu.</p>
+      <img src="./img/mp3tag_options.png" alt="'Tools' menu with 'Options' highlighted">
+    </li>
+    <li>
+      <p>Select "Tag Sources → freedb" in the sidebar.</p>
+      <p>Enter the server domain or IP into the "Address" textbox.</p>
+      <p>Enter the path into the "Path" textbox (usually "/cddb").</p>
+      <p>If your server is not hosted on port 80, <strong>you must also include the port as part of the path</strong> (see image).</p>
+      <p>This is a bug in Mp3tag, the "Port" textbox does not do anything.</p>
+      <img src="./img/mp3tag_server.png" alt="'freedb' options page with 'address' and 'path' textboxes filled out">
+    </li>
+    <li>
+      <p>Click "OK".</p>
+    </li>
+    <li>
+      <p>Import the files for the album you want to tag into Mp3tag.</p>
+      <p>Select <strong>all files, in track order.</strong></p>
+      <p>Tags will not be able to be found if any tracks are unselected or selected out-of-order.</p>
+      <img src="./img/mp3tag_files.png" alt="All tracks selected">
+    </li>
+    <li>
+      <p>With the files selected, access the freedb tag source through the "Tag Sources → freedb" menu.</p>
+      <img src="./img/mp3tag_source.png" alt="'Tag Sources' menu with 'freedb' highlighted">
+    </li>
+    <li>
+      <p>Select "determine from selected files" and click "OK"</p>
+      <img src="./img/mp3tag_freedb.png" alt="Window with 'determine from selected files' selected">
+    </li>
+    <li>
+      <p>Confirm the tags and click "OK"</p>
+      <img src="./img/mp3tag_window.png" alt="Window with tag information in it">
+    </li>
+    <li>
+      <p>Tagging complete!</p>
+    </li>
+  </ol>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Gracenote to FreeDB Proxy - foobar2000 Configuration Configuration</title>
+  <link href="/css/sakura.css" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    img {
+      border: 1px dotted black;
+    }
+  </style>
+</head>
+<body>
+	<div style="text-align: center">
+		<h1>Gracenote → FreeDB Proxy</h1>
+		<p><a href="https://github.com/Hakkin/cddb">View source on Github</a></p>
+    <h2>foobar2000 Configuration</h2><hr>
+  </div>
+  <ol>
+    <li>
+      <p>You must have the "Online Tagger" (foo_freedb2) plugin installed to access freedb in foobar2000.</p>
+      <p>To install this, check the box next to it during installation.</p>
+      <img src="./img/fb2k_install.png" alt="'foobar2000' installation window with 'Online Tagger' checked">
+    </li>
+    <li>
+      <p>Once you have confirmed the "Online Tagger" plugin is installed, access the foobar2000 preferences page through the "File → Preferences" menu.</p>
+      <img src="./img/fb2k_preferences.png" alt="'File' menu with 'Preferences' highlighted">
+    </li>
+    <li>
+      <p>Select "Tools → Tagging → freedb Tagger" in the sidebar.</p>
+      <p>Click "Add" button.</p>
+      <img src="./img/fb2k_options.png" alt="'freedb Tagger' options page with 'Add' button selected">
+    </li>
+    <li>
+      <p>Enter the server domain or IP into the "Server" textbox.</p>
+      <p>Enter the port into the "Port" textbox.</p>
+      <p>Enter the path into the "Address" textbox (usually "/cddb")</p>
+      <p>Click "OK"</p>
+      <img src="./img/fb2k_server.png" alt="Window with 'Server', 'Port' and 'Address' textboxes filled out">
+    </li>
+    <li>
+      <p>Click "OK"</p>
+    </li>
+    <li>
+      <p>Import the files for the album you want to tag into foobar2000.</p>
+      <p>Select <strong>all files, in track order.</strong></p>
+      <p>Tags may not be able to be found if any tracks are unselected or  selected out-of-order.</p>
+      <img src="./img/fb2k_files.png" alt="All tracks selected">
+    </li>
+    <li>
+      <p>Right click the tracks and select "Tagging → Get tags from freedb"</p>
+      <img src="./img/fb2k_tags.png" alt="Right click 'Tagging' menu with 'Get tags from freedb' highlighted">
+    </li>
+    <li>
+      <p>Confirm the tags and click "Update files"</p>
+      <img src="./img/fb2k_window.png" alt="Window with tag information in it">
+    </li>
+    <li>
+      <p>Tagging complete!</p>
+    </li>
+  </ol>
+</body>
+</html>
