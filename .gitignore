@@ -29,8 +29,5 @@ index.html
 # Build files
 build/*
 
-# Config files
-config.go
-
 # Gracenote API keys
 gracenote.yaml
