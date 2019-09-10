@@ -6,14 +6,14 @@ This is a proxy that allows FreeDB aware software to access metadata from the Gr
 The root `cddb` package can also be used as a rudimentary Gracenote library.
 
 ## Table of Contents
-- [Gracenote → FreeDB Proxy](#gracenote---freedb-proxy)
-  * [What is this?](#what-is-this-)
+- [Gracenote → FreeDB Proxy](#gracenote--freedb-proxy)
+  * [What is this?](#what-is-this)
   * [Configuration](#configuration)
     + [Command line switches](#command-line-switches)
     + [General Environment Variables](#general-environment-variables)
     + [App Engine Environment Variables](#app-engine-environment-variables)
     + [Compile-time configuration](#compile-time-configuration)
-  * [Building + Running / Deploying](#building---running---deploying)
+  * [Building + Running / Deploying](#building--running--deploying)
     + [Standalone](#standalone)
     + [Google App Engine](#google-app-engine)
   * [Usage](#usage)
